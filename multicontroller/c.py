@@ -32,7 +32,7 @@ class Controller(app_manager.RyuApp):
 			self.status = True
 			hub.spawn(self._rece_loop)
 			hub.spawn(self._send_loop)
-		except Exception, e:
+		except Exception as e:
 			raise e
 
 	def _send_loop(self):
@@ -52,7 +52,7 @@ class Controller(app_manager.RyuApp):
 					self.logger.info('connection fail, close')
 					self.status = False
 					break
-				data = message.split("\n")
+				data = message.split(str.encode("\n"))
 				for temp in data:
 					print temp
 					msg = json.loads(temp)
@@ -91,7 +91,7 @@ class Controller(app_manager.RyuApp):
 			dst_dpid, dst_port_no = datapath.id, msg.match['in_port']
 			self.add_topo(src_dpid,dst_dpid,src_port_no,dst_port_no)
 			link = api.get_link(self)
-			print self.topo
+			print("self.topo")
 			for i in link:
 				src = i.src
 				dst = i.dst
